@@ -1,13 +1,36 @@
+<style>
+  .app-container {
+    margin-top: 15px; 
+    padding: 20px; 
+    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%) !important;
+  }
+  .btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-size: large;
+    overflow: visible;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: #3b9aff;
+    border-color: #1988ff
+  }
+  .field {
+    font-size: 25px;
+    width: 100px;
+  }
+</style>
 <script>
+  import multiplication_charts from '../assets/multiplication_charts.jpg'
 
   let problems = []
-  let number1 = 5;
-  let operation = "*";
-  let number2 = 2;
-  let result = "";
-  let visible = false;
   let buttonName = "Start";
   let status = "menu"; // menu, play, finish
+  let successes = 0;
 
   function handleClick() { // changes status
     if (status == "menu") {
@@ -18,71 +41,80 @@
     }
     else if (status == "finish") {
       status = "menu";
+      //
+      //alert(successes + " out of " + problems.length);
     }
   }
 
-  function calculate() {
-    if (operation == "*") {
-      return number1 * number2;
-    }
-    if (operation == "/") {
-      return number1 / number2;
-    }
+  function isSuccess(p) {
+    return p.result == "" ? false : (p.n1 * p.n2) == +p.result;
   }
 
   function init() {
-    problems.length = 0;
-    for(let i = 0; i <= 10; i++) {
-      problems.push();
+    let answer = [];
+    for(let i = 0; i <= 5; i++) {
+      answer.push( { n1:(Math.floor(Math.random() * 10)), n2:(Math.floor(Math.random() * 10)), result:"" } );
     }
+    //console.log('answer', answer);
+    return answer;
   }
-  init();
 
   $: {
     if (status == "menu") { 
       buttonName = "Start"; 
-      result = "";
-      // number1 = Math.floor(Math.random() * 10);
-      // number2 = Math.floor(Math.random() * 10)
+      problems = init();
     }
     if (status == "play") buttonName = "Finish";
-    if (status == "finish") buttonName = "Reset";
+    if (status == "finish") {
+      buttonName = "Reset";
+      
+      let count = 0;
+      for (let p of problems) {
+        if (isSuccess(p)) {
+          count++;
+        }
+      }
+      successes = count;
+    }
   }
-  $: visible = status != "menu"
-  $: success = calculate() == +result;
 
 </script>
 
-<button id="button" on:click={handleClick}>
+<button id="button" class="btn" on:click={handleClick}>
   {buttonName}
 </button>
 
-<div style="margin-top:7px">
+<div class="app-container">
+
   {#if (status == "menu")}
   <div> <!-- menu -->
-
+    <img style="margin-left:auto; margin-right:auto" src={multiplication_charts} alt="Multiplication Table" width="565" height="565">
   </div>
   {/if}
 
   {#if (status == "play")}
   <div> <!-- game -->
-    {number1} * {number2} = <input type="text" bind:value={result}>
+    {#each problems as p}
+    <div style="margin-top:3px">
+      {p.n1} * {p.n2} = <input type="text" class="field" bind:value={p.result}>
+    </div>
+    {/each}
   </div>
   {/if}
 
   {#if (status == "finish")}
   <div> <!-- corrected game -->
-    {number1} * {number2} = <input style="background-color: {success ? "lightgreen" : "red"}" bind:value={result} />
+    {#each problems as p}
+    <div style="margin-top:5px">
+      {p.n1} * {p.n2} = <input class="form" style="background-color: { isSuccess(p) ? "lightgreen" : "pink"}" bind:value={p.result}/>
+    </div>
+    {/each}
   </div>
-  {/if}
-</div>
-  <!-- {#if (status == "finish")}
-  <input type="text" bind:value={result} style={{backgroundColor: success ? "lightgreen":"pink"}} />
-  {/if} -->
 
-<!-- {#if (status == "play")}
-<input type="text" bind:value={result} style={{backgroundColor: success ? "lightgreen":"pink"}} />
-{/if}
-{#if (status == "finish")}
-<input type="text" bind:value={result} />
-{/if} -->
+  <div style="margin-top:10px">
+    Score: {successes} / {problems.length}
+  </div>
+
+  {/if}
+
+</div>
