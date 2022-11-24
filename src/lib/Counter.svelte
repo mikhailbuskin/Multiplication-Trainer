@@ -83,11 +83,11 @@
   $: {
     if (status == "menu") { 
       buttonName = "Start"; 
+      problems = init();
     }
     if (status == "play") {
       buttonName = "Finish";
       // createFacts();
-      problems = init();
     }
     if (status == "finish") {
       buttonName = "Reset";
@@ -142,7 +142,7 @@
     <div>
       10 <input type="checkbox" bind:checked={facts.n10}>
     </div> -->
-    <img style="" src={multiplication_charts} alt="Multiplication Table" width="565" height="565">
+    <!-- <img style="" src={multiplication_charts} alt="Multiplication Table" width="565" height="565"> -->
   </div>
   {/if}
 
