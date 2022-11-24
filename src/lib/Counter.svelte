@@ -1,4 +1,32 @@
+<style>
+  .app-container {
+    margin-top: 15px; 
+    padding: 20px; 
+    box-shadow: 0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%) !important;
+  }
+  .btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-size: large;
+    overflow: visible;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: #3b9aff;
+    border-color: #1988ff
+  }
+  .field {
+    font-size: 25px;
+    width: 100px;
+  }
+</style>
 <script>
+  import multiplication_charts from '../assets/multiplication_charts.jpg'
+
   let problems = []
   let buttonName = "Start";
   let status = "menu"; // menu, play, finish
@@ -56,11 +84,11 @@
   {buttonName}
 </button>
 
-<div style="margin-top:7px" class="app-container">
+<div class="app-container">
 
   {#if (status == "menu")}
   <div> <!-- menu -->
-    <!-- <img style="margin-left:auto; margin-right:auto" src={multiplication_charts} alt="Multiplication Table" width="565" height="565"> -->
+    <img style="margin-left:auto; margin-right:auto" src={multiplication_charts} alt="Multiplication Table" width="565" height="565">
   </div>
   {/if}
 
@@ -77,7 +105,7 @@
   {#if (status == "finish")}
   <div> <!-- corrected game -->
     {#each problems as p}
-    <div style="margin-top:3px">
+    <div style="margin-top:5px">
       {p.n1} * {p.n2} = <input class="form" style="background-color: { isSuccess(p) ? "lightgreen" : "pink"}" bind:value={p.result}/>
     </div>
     {/each}
