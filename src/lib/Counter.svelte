@@ -6,7 +6,6 @@
     border-radius: 7px;
   }
   .btn {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 10px 15px;
     background-color: #007bff;
     border-color: #007bff;
@@ -29,6 +28,23 @@
     height:45px;
     display:inline-block; 
     width:320px;
+  }
+  .checkbox-number {
+    font-size:34px;
+  }
+  .large-checkbox {
+    height:21px;
+    width:21px;
+    margin-left:13px;
+  }
+  .fact-switch {
+    margin-left:40px;
+    margin-bottom:18px;
+  }
+  .multiplication-table {
+    width:565px;
+    margin-top: 0;
+    float:right;
   }
 </style>
 <script>
@@ -121,44 +137,49 @@
 </script>
 
 <button id="button" class="btn" on:click={handleClick}>
-  {buttonName}
+  <b>
+    {buttonName}
+  </b>
 </button>
 
 <div class="app-container">
 
   {#if (status == "menu")}
   <div> <!-- menu -->
+    <img class="multiplication-table" src={multiplication_charts} alt="Multiplication Table">
     <div>
-      1 <input type="checkbox" bind:checked={factsEnabled["1"]}>
+      <div class="fact-switch">
+        <span class="checkbox-number">1</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["1"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">2</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["2"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">3</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["3"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">4</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["4"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">5</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["5"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">6</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["6"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">7</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["7"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">8</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["8"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">9</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["9"]}>
+      </div>
+      <div class="fact-switch">
+        <span class="checkbox-number">10</span> <input class="large-checkbox" type="checkbox" bind:checked={factsEnabled["10"]}>
+      </div>
     </div>
-    <div>
-      2 <input type="checkbox" bind:checked={factsEnabled["2"]}>
-    </div>
-    <div>
-      3 <input type="checkbox" bind:checked={factsEnabled["3"]}>
-    </div>
-    <div>
-      4 <input type="checkbox" bind:checked={factsEnabled["4"]}>
-    </div>
-    <div>
-      5 <input type="checkbox" bind:checked={factsEnabled["5"]}>
-    </div>
-    <div>
-      6 <input type="checkbox" bind:checked={factsEnabled["6"]}>
-    </div>
-    <div>
-      7 <input type="checkbox" bind:checked={factsEnabled["7"]}>
-    </div>
-    <div>
-      8 <input type="checkbox" bind:checked={factsEnabled["8"]}>
-    </div>
-    <div>
-      9 <input type="checkbox" bind:checked={factsEnabled["9"]}>
-    </div>
-    <div>
-      10 <input type="checkbox" bind:checked={factsEnabled["10"]}>
-    </div>
-    <img style="" src={multiplication_charts} alt="Multiplication Table" width="565" height="565">
+    <div style="clear:both"></div>
   </div>
   {/if}
 
