@@ -67,29 +67,29 @@
     10 : false
   }
   let facts = []
+  let time = 0;
+  let interval = null;
+  let needMoreFacts = false;
 
   function handleClick() { // changes status
     if (status == "menu") {
-      problems = init();
-      status = "play";
+      if ( !( Object.values(factsEnabled).every(value => value === false) ) ){
+        problems = init();
+        status = "play";
+        interval = setInterval(function () {time++;}, 1000)
+        needMoreFacts = false;
+      } else {
+        needMoreFacts = true;
+      }
     }
     else if (status == "play") {
+      clearInterval(interval);
       status = "finish";
     }
     else if (status == "finish") {
       status = "menu";
     }
   }
-
-  // function createFacts(factsEnabled) {
-  //   var facts = [];
-  //   for(let key in factsEnabled){
-  //     if(factsEnabled[key] == true){
-  //       facts.push(+key)
-  //     }
-  //   }
-  //   return facts;
-  // }
 
   function isSuccess(p) {
     return p.result == "" ? false : (p.n1 * p.n2) == +p.result;
@@ -103,20 +103,19 @@
       }
     }
   }
-  //random();
 
   function init() {
     let answer = [];
     for(let i = 0; i < 50; i++) {
       answer.push( { n1:(random(facts)), n2:(random(facts)), result:"" } );
     }
-    //console.log('answer', answer);
     return answer;
   }
 
   $: {
     if (status == "menu") { 
       buttonName = "Start"; 
+      time = 0;
     }
     if (status == "play") {
       buttonName = "Finish";
@@ -141,6 +140,14 @@
     {buttonName}
   </b>
 </button>
+
+{#if (status == "play")}
+<span style="margin-left:10px; font-size:larger">Min: {Math.floor(time/60)} Sec: {time%60}</span>
+{/if}
+
+{#if (needMoreFacts == true)}
+<span style="margin-left:10px; font-size:larger">Pick more facts</span>
+{/if}
 
 <div class="app-container">
 
@@ -203,9 +210,11 @@
   </div>
 
   <div style="margin-top:10px; font-size:30px">
-    Score: {successes} / {problems.length}
+    <b>Score:</b> {successes} / {problems.length}
   </div>
-
+  <div style="margin-top:5px; font-size:30px">
+    <b>Time:</b> {Math.floor(time/60)}:{time%60 < 10 ? "0" : ""}{time%60}
+  </div>
   {/if}
 
 </div>
