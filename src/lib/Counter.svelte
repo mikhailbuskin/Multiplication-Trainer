@@ -36,6 +36,7 @@
     height:21px;
     width:21px;
     margin-left:13px;
+    cursor: pointer;
   }
   .fact-switch {
     margin-left:40px;
