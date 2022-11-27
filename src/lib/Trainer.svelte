@@ -109,7 +109,7 @@
       clearInterval(interval);
       countScore();
       let date = new Date();
-      //save({"user":localStorage["user"], "date":new Date().toISOString(), "timespend":time, "score": (successes / problems.length)});
+      save({"user":localStorage["user"], "date":new Date().toISOString(), "timespend":time, "score": (successes / problems.length)});
       status = "finish";
     }
     else if (status == "finish") {
