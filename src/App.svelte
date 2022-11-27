@@ -1,7 +1,5 @@
 <script>
-import Counter from './lib/Counter.svelte'
+import Trainer from './lib/Trainer.svelte'
 </script>
+<Trainer />
 
-<div style="width: 1000px; margin:auto; margin-top: 100px">
-  <Counter />
-</div>
