@@ -88,7 +88,7 @@
   let time = 0;
   let interval = null;
   let needMoreFacts = false;
-
+  let doSave = true;
 
   /*remember user*/
   if (localStorage["user"] == null) {
@@ -110,11 +110,14 @@
       clearInterval(interval);
       countScore();
       let date = new Date();
-      save({"user":localStorage["user"], "date":new Date().toISOString(), "timespend":time, "score": (successes / problems.length)});
+      if(doSave == true){
+        save({"user":localStorage["user"], "date":new Date().toISOString(), "timespend":time, "score": (successes / problems.length)});
+      }
       status = "finish";
     }
     else if (status == "finish") {
       time = 0;
+      doSave = true;
       status = "menu";
     }
   }
@@ -130,7 +133,12 @@
   }
 
   function isSuccess(p) {
-    return p.result == "" ? false : (p.n1 * p.n2) == +p.result;
+    if(p.result == ""){
+      doSave = false;
+      return false;
+    } else {
+      return (p.n1 * p.n2) == +p.result;
+    }
   }
 
   function random(list){
@@ -178,6 +186,8 @@
     </b>
   </button>
 
+
+
   {#if (status == "play")}
   <span style="margin-left:10px; font-size:larger">Min: {Math.floor(time/60)} Sec: {time%60}</span>
   {/if}
@@ -223,6 +233,7 @@
         </div>
       </div>
       <img class="multiplication-table" src={multiplication_charts} alt="Multiplication Table">
+      <div style="margin-top:12px; font-size:20px; line-height: 1.4em">Pick the facts above. You can study with this multiplication table. When started, you will be given 50 multiplication problems, that you will need to solve. If you don't answer all of the problems, your score and time of this round won't count toward your statistics, so answer all of the problems.</div>
     </div>
     {/if}
 
