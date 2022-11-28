@@ -89,6 +89,7 @@
   let interval = null;
   let needMoreFacts = false;
 
+
   /*remember user*/
   if (localStorage["user"] == null) {
     localStorage["user"] = new Date().toISOString();
@@ -142,14 +143,9 @@
   }
 
   async function save(data){
-    await fetch("http://api.buskiny.com/mult-table/save.php", { 
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
+    await fetch("https://buskin.maintstar.co/mult-table/save.php", {method:"POST", body: JSON.stringify(data)});
+    let results = await fetch("https://buskin.maintstar.co/mult-table/load.php", {method:"POST", body: JSON.stringify({ user: data.user })});
+    console.log('load', results);
   }
   
   function init() {
