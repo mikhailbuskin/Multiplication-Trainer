@@ -3,6 +3,7 @@
     max-width: 750px;
     margin: auto;
     margin-top: 50px;
+    margin-bottom: 50px;
   }
   .app-container {
     margin-top: 15px; 
@@ -67,6 +68,7 @@
 </style>
 <script>
   import multiplication_charts from '../assets/multiplication_charts.jpg'
+  import Stats from './Stats.svelte'
 
   let problems = []
   let buttonName = "Start";
@@ -234,6 +236,9 @@
       </div>
       <img class="multiplication-table" src={multiplication_charts} alt="Multiplication Table">
       <div style="margin-top:12px; font-size:20px; line-height: 1.4em">Pick the facts above. You can study with this multiplication table. When started, you will be given 50 multiplication problems, that you will need to solve. If you don't answer all of the problems, your score and time of this round won't count toward your statistics, so answer all of the problems.</div>
+      <div style="margin-top:20px">
+        <Stats />
+      </div>
     </div>
     {/if}
 

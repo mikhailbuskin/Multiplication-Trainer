@@ -1,33 +1,74 @@
 <script>
-import { onMount } from 'svelte';
-let results = [
-    {"date":"2022-11-26T03:04:34.516Z","timespend":10,"score":0.4},
-    {"date":"2022-11-27T03:09:27.787Z","timespend":4,"score":0.8},
-    {"date":"2022-11-28T03:13:49.049Z","timespend":11,"score":0.9}
-];
+    import { onMount } from 'svelte';
+    //import { Chart } from 'chart.js'
+    import Chart from 'chart.js/auto';
+    
+    onMount(async () => {
+        const div = document.getElementById('myChart');
+        let misha = "2022-11-27T21:02:18.912Z"
+        let sasha = "2022-11-28T23:26:18.672Z"
+        let results = await fetch("https://buskin.maintstar.co/mult-table/load.php", {method:"POST", body: JSON.stringify({ user: localStorage["user"] })});
+        let resultsJson = await results.json();
 
-onMount(async () => {
-    const ctx = document.getElementById('myChart');
-    alert(ctx);
-    let chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
+        const data = {
+            labels: resultsJson.map((r,i) => (i+1)),
+            datasets: [
+                {
+                    label: 'Time',
+                    //data: [65, 59, 80, 81, 56, 55, 40],
+                    data: resultsJson.map(r => r.timespend),
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Accuracy',
+                    //data: [65, 59, 80, 81, 56, 55, 40],
+                    data: resultsJson.map(r => (r.score)),
+                    fill: false,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1,
+                    yAxisID: "percentage"
+                }
+            ]
+        };
+
+        let chart = new Chart(div, {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Attempt #"
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: "Time in seconds"
+                        }
+                    },
+                    percentage: {
+                        position: 'right',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Accuracy in decimals"
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
             }
-        }
-        }
-    });
-})
-
-</script>
-<div id="myChart"></div>
+        });
+    })
+    
+    </script>
+    <canvas id="myChart"/>
